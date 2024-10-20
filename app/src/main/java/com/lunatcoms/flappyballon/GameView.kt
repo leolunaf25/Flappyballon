@@ -6,10 +6,16 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.SurfaceView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class GameView(context: Context, attrs: AttributeSet) : SurfaceView(context, attrs), Runnable {
+class GameView(context: Context, attrs: AttributeSet) : SurfaceView(context, attrs) {
 
-    private var thread: Thread? = null
+    private val gameScope = CoroutineScope(Dispatchers.Default)
+
     private var isPlaying = false
 
     private var background1: Background
@@ -28,11 +34,11 @@ class GameView(context: Context, attrs: AttributeSet) : SurfaceView(context, att
         background2 = Background(scaledBitmap,background1.image.width.toFloat(),0F)
     }
 
-    override fun run() {
+    private suspend fun runGameLoop() {
         while (isPlaying) {
             update()
             draw()
-            sleep()
+            delay(17L)
         }
     }
 
@@ -61,23 +67,16 @@ class GameView(context: Context, attrs: AttributeSet) : SurfaceView(context, att
         }
     }
 
-    private fun sleep() {
-        Thread.sleep(17)
-    }
-
     fun resume() {
         isPlaying = true
-        thread = Thread(this)
-        thread?.start()
+        gameScope.launch {
+            runGameLoop() // Lanzar el ciclo del juego en una corrutina
+        }
     }
 
     fun pause() {
         isPlaying = false
-        try {
-            thread?.join()
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
+        gameScope.coroutineContext.cancelChildren() // Cancelar todas las corrutinas del scope
     }
 
 }
