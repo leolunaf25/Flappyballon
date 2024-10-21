@@ -12,17 +12,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class GameView(context: Context, attrs: AttributeSet) : SurfaceView(context, attrs) {
 
     private val gameScope = CoroutineScope(Dispatchers.Default)
 
     private var isPlaying = false
+    private var isGameOver = false
 
     private var background1: Background
     private var background2: Background
 
     private var character: Character
+    private var obstacles: MutableList<Obstacle> = mutableListOf()
 
 
     init {
@@ -41,6 +44,19 @@ class GameView(context: Context, attrs: AttributeSet) : SurfaceView(context, att
         val scaledCharacter = Bitmap.createScaledBitmap(characterBitmap, screenWidth.toInt()/8,screenHeight.toInt()/12,false)
 
         character = Character(scaledCharacter,screenWidth/3F,screenHeight/3F,screenHeight-(scaledCharacter.height*1.7).toFloat(),0F)
+
+        // Inicialización de obstáculos (igual que antes)
+        val topObstacleImage = BitmapFactory.decodeResource(resources, R.drawable.pipe_top)
+        val bottomObstacleImage = BitmapFactory.decodeResource(resources, R.drawable.pipe_bottom)
+
+        val gapHeight = Random.nextInt(screenHeight.toInt()/5, screenHeight.toInt()/3)
+
+        val scaledTopObstacle = Bitmap.createScaledBitmap(topObstacleImage,topObstacleImage.width,(screenHeight*.6).toInt(),false)
+        val scaledBottomObstacle = Bitmap.createScaledBitmap(bottomObstacleImage,bottomObstacleImage.width,(screenHeight*.6).toInt(),false)
+
+        obstacles.add(Obstacle(screenWidth,screenHeight.toInt(),gapHeight,screenWidth,scaledTopObstacle,scaledBottomObstacle))
+        obstacles.add(Obstacle(screenWidth,screenHeight.toInt(),gapHeight,screenWidth+(screenWidth*0.55F),scaledTopObstacle,scaledBottomObstacle))
+
     }
 
     private suspend fun runGameLoop() {
@@ -53,6 +69,11 @@ class GameView(context: Context, attrs: AttributeSet) : SurfaceView(context, att
 
     private fun update(){
 
+        if (isGameOver){
+            character.update()
+            return
+        }
+
         background1.update()
         background2.update()
 
@@ -64,6 +85,18 @@ class GameView(context: Context, attrs: AttributeSet) : SurfaceView(context, att
         }
 
         character.update()
+
+        //Obstacles
+        for (obstacle in obstacles){
+            obstacle.update()
+
+            if (obstacle.checkCollision(character)){
+                isGameOver = true
+                character.velocityY = 0
+                character.jumForce = 0
+
+            }
+        }
     }
 
     private fun draw(){
@@ -73,7 +106,14 @@ class GameView(context: Context, attrs: AttributeSet) : SurfaceView(context, att
             canvas.drawBitmap(background1.image, background1.x, background1.y,null)
             canvas.drawBitmap(background2.image, background2.x, background2.y,null)
 
-            character.draw(canvas)
+            for (obstacle in obstacles){
+                obstacle.draw(canvas)
+            }
+
+            if (!isGameOver){
+                character.draw(canvas)
+            }
+
             holder.unlockCanvasAndPost(canvas)
 
         }

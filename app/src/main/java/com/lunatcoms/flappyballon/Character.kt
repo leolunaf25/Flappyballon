@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 
 class Character(
-    private val characterImage: Bitmap,
+    val characterImage: Bitmap,
     var x: Float,
     var y: Float,
     private val groundLevel: Float,
