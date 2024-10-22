@@ -20,6 +20,8 @@ class Obstacle(
     private var topObstacleY: Int // Posición Y del obstáculo superior
     private var bottomObstacleY: Int // Posición Y del obstáculo inferior
 
+    var hasBeenPassed:Boolean= false
+
     init {
         topObstacleY =
             Random.nextInt(-obstacleHeight + (screenHeight - obstacleHeight - gapHeight), 0)
@@ -38,6 +40,8 @@ class Obstacle(
             topObstacleY =
                 Random.nextInt(-obstacleHeight + (screenHeight - obstacleHeight - gapHeight), 0)
             bottomObstacleY = topObstacleY + obstacleHeight + gapHeight
+
+            hasBeenPassed = false
         }
     }
 
@@ -53,4 +57,11 @@ class Obstacle(
         return Rect.intersects(characterRect,topRect) || Rect.intersects(characterRect,bottomRect)
     }
 
+    fun checkScore(character: Character):Boolean{
+        return character.x > xPosition
+    }
+
+    fun checkPassed(){
+        hasBeenPassed = true
+    }
 }

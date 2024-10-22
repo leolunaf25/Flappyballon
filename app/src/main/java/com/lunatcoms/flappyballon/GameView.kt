@@ -94,7 +94,10 @@ class GameView(context: Context, attrs: AttributeSet) : SurfaceView(context, att
                 isGameOver = true
                 character.velocityY = 0
                 character.jumForce = 0
-
+            }
+            if (obstacle.checkScore(character) && !obstacle.hasBeenPassed){
+                (context as GameActivity).updateScore()
+                obstacle.checkPassed()
             }
         }
     }

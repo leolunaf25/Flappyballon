@@ -8,10 +8,14 @@ class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
 
+    private var score: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.tvScore.text = score.toString()
 
     }
 
@@ -25,5 +29,12 @@ class GameActivity : AppCompatActivity() {
         super.onPause()
         //Pausar el juego cuando la app no esté activa
         binding.gameView.pause()
+    }
+
+    fun updateScore(){
+        score++
+        runOnUiThread {
+            binding.tvScore.text = score.toString()
+        }
     }
 }
