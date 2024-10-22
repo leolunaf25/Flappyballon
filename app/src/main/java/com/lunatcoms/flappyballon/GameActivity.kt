@@ -2,6 +2,7 @@ package com.lunatcoms.flappyballon
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.lunatcoms.flappyballon.databinding.ActivityGameBinding
 
 class GameActivity : AppCompatActivity() {
@@ -17,6 +18,17 @@ class GameActivity : AppCompatActivity() {
 
         binding.tvScore.text = score.toString()
 
+        binding.btnRefresh.setOnClickListener {
+            binding.gameView.pause()
+            recreate()
+        }
+
+        binding.btnExit.setOnClickListener {
+            // Salir del juego
+            //finishAffinity()
+            //exitProcess(0)
+            finish()  // Cierra la actividad actual y regresa a la anterior
+        }
     }
 
     override fun onResume() {
@@ -31,10 +43,39 @@ class GameActivity : AppCompatActivity() {
         binding.gameView.pause()
     }
 
-    fun updateScore(){
+    fun showScoreBoard(){
+        updateBoard()
+        runOnUiThread {
+            binding.cvBoard.visibility = View.VISIBLE
+        }
+    }
+
+    private fun updateBoard() {
+        runOnUiThread {
+            binding.tvBoardScore.text = score.toString()
+            binding.tvRecord.text = getHighScore().toString()
+        }
+    }
+
+    fun updateScore() {
         score++
         runOnUiThread {
             binding.tvScore.text = score.toString()
         }
+        if (score > getHighScore()){
+            saveRecord(score)
+        }
+    }
+
+    private fun saveRecord(score: Int) {
+        val sharedPreferences = getSharedPreferences("game_prefabs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("high_score", score)
+        editor.apply()
+    }
+
+    private fun getHighScore(): Int {
+        val sharedPreferences = getSharedPreferences("game_prefabs", MODE_PRIVATE)
+        return sharedPreferences.getInt("high_score",0)
     }
 }

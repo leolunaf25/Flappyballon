@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Flappyballon</string>
+
+    <string name="noDescription" translatable="false">NA</string>
 </resources>

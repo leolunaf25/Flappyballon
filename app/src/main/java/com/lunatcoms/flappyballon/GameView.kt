@@ -71,6 +71,7 @@ class GameView(context: Context, attrs: AttributeSet) : SurfaceView(context, att
 
         if (isGameOver){
             character.update()
+            (context as GameActivity).showScoreBoard()
             return
         }
 
