@@ -1,0 +1,17 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#F4A460" /> <!-- Color de fondo (arena) -->
+    <corners android:radius="16dp" /> <!-- Bordes redondeados -->
+    <stroke
+        android:width="3dp"
+        android:color="#8B4513" /> <!-- Borde del botón (marrón) -->
+    <padding
+        android:left="10dp"
+        android:top="10dp"
+        android:right="10dp"
+        android:bottom="10dp" />
+    <gradient
+        android:angle="45"
+        android:startColor="#F4A460"
+        android:endColor="#D2B48C"
+        android:type="linear" />
+</shape>

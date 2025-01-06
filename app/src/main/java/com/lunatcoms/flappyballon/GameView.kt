@@ -49,7 +49,7 @@ class GameView(context: Context, attrs: AttributeSet) : SurfaceView(context, att
         val topObstacleImage = BitmapFactory.decodeResource(resources, R.drawable.pipe_top)
         val bottomObstacleImage = BitmapFactory.decodeResource(resources, R.drawable.pipe_bottom)
 
-        val gapHeight = Random.nextInt(screenHeight.toInt()/5, screenHeight.toInt()/3)
+        val gapHeight = Random.nextInt(screenHeight.toInt()/4, screenHeight.toInt()/3)
 
         val scaledTopObstacle = Bitmap.createScaledBitmap(topObstacleImage,topObstacleImage.width,(screenHeight*.6).toInt(),false)
         val scaledBottomObstacle = Bitmap.createScaledBitmap(bottomObstacleImage,bottomObstacleImage.width,(screenHeight*.6).toInt(),false)

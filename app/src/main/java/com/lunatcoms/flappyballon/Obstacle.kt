@@ -29,7 +29,7 @@ class Obstacle(
     }
 
     fun update() {
-        gapHeight = Random.nextInt(screenHeight / 5, screenHeight / 4)
+        gapHeight = Random.nextInt(screenHeight / 4, screenHeight / 3)
 
         xPosition -= 10
 

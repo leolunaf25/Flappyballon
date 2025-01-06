@@ -42,12 +42,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/panel_background"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
                 android:text="Game Over"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:textSize="42sp"
                 />
@@ -60,7 +63,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="#FFFFFF"
                     android:gravity="end"
+                    android:textStyle="bold"
                     android:textSize="28sp"
                     android:text="Puntuación:"/>
                 <TextView
@@ -69,6 +74,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="22dp"
                     android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
                     android:textSize="32sp"
                     tools:text="1000"/>
             </LinearLayout>
@@ -82,6 +89,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
                     android:textSize="28sp"
                     android:text="Récord:"/>
                 <TextView
@@ -90,6 +99,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="22dp"
                     android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
                     android:textSize="32sp"
                     tools:text="1000"/>
             </LinearLayout>
@@ -102,7 +113,10 @@
                 android:layout_marginTop="22dp"
                 android:src="@drawable/ic_regressh"
                 android:contentDescription="@string/noDescription"
+                android:background="@drawable/button_background"
+                android:layout_marginBottom="5dp"
                 />
+
             <ImageButton
                 android:id="@+id/btnExit"
                 android:layout_width="80dp"
@@ -111,7 +125,9 @@
                 android:layout_marginBottom="12dp"
                 android:src="@drawable/ic_exit"
                 android:contentDescription="@string/noDescription"
+                android:background="@drawable/button_background"
                 />
+
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
